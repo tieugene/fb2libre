@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body_main %}
+<center>
+<p>
+ <a href="{% url 'lang_list'   %}" class="nou"> <button type="button" class="plain"> Языки </button> </a>
+ <a href="{% url 'series_list' %}" class="nou"> <button type="button" class="plain"> Серии </button> </a>
+ <a href="{% url 'genre_list'  %}" class="nou"> <button type="button" class="plain"> Жанры </button> </a>
+ <a href="{% url 'author_list' %}" class="nou"> <button type="button" class="plain"> Авторы </button> </a>
+ <button type="button" class="plain"> Библиотеки </button>
+ <a href="{% url 'book_list'  %}" class="nou"> <button type="button" class="plain"> Книги </button> </a>
+</p>
+</center>
+{% endblock %}

@@ -1,0 +1,30 @@
+<table width="auto" border="1">
+<caption> Книги: </caption>
+<thead>
+ <tr>
+  <th> # </th>
+  <th> ID </th>
+  <th> Библиотека </th>
+  <th> Файл </th>
+  <th> Размер </th>
+  <th/>
+  <th> Название </th>
+  <th> Серия </th>
+  <th> # </th>
+ </tr>
+</thead>
+<tbody>
+{% for book in object.book_set.all %}
+  <tr class="list">
+  <td align="right"> {{ forloop.counter }} </td>
+  <td align="right"> <a href="{% url 'book_view' book.pk %}"> {{ book.pk }} </a> </td>
+  <td> {{ book.arch.lib }} </td>
+  <td align="right"> <a href="{{ book.get_lib_url }}"> {{ book.fname|stringformat:"d" }} </a> </td>
+  <td align="right"> {{ book.size }} </td>
+  <td> {% if object.deleted %} {% include "svgbutton/canceled.html" %} {% else %} {% include "svgbutton/agreed.html" %} {% endif %} </td>
+  <td> {{ book.title }} </td>
+  <td> {{ book.series|default:'' }} </td>
+  <td> {{ book.serno|default:'' }} </td>
+ </tr>
+{% endfor %}
+</tbody>

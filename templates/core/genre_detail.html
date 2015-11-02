@@ -1,0 +1,12 @@
+{% extends "core/base.html" %}
+{% block title %} Жанр {% endblock %}
+{% block menu_title %} Жанр: {{ object.abbr }} {% endblock %}
+{% block body_main %}
+<table width="auto" border="1">
+ <tbody>
+  <tr> <th> # </th>             <td> {{ object.pk }} </td> </tr>
+  <tr> <th> Наименование </th>  <td> {{ object.abbr }} </td> </tr>
+ </tbody>
+</table>
+{% include "core/book_sublist.html" %}
+{% endblock %}

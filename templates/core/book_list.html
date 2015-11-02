@@ -1,0 +1,36 @@
+{% extends "core/base.html" %}
+{% block title %} Книги {% endblock %}
+{% block menu_title %} Книги {% endblock %}
+{% block body_main %}
+{% include "paginator.html" %}
+<table width="auto" border="1">
+<thead>
+ <tr>
+  <th> # </th>
+  <th> ID </th>
+  <th> Библиотека </th>
+  <th> Файл </th>
+  <th> Размер </th>
+  <th/>
+  <th> Название </th>
+  <th> Серия </th>
+  <th> # </th>
+ </tr>
+</thead>
+<tbody>
+{% for object in object_list %}
+ <tr class="list">
+  <td align="right"> {{ forloop.counter }} </td>
+  <td align="right"> <a href="{% url 'book_view' object.pk %}"> {{ object.pk }} </a> </td>
+  <td> {{ object.arch.lib }} </td>
+  <td align="right"> <a href="{{ object.get_lib_url }}"> {{ object.fname|stringformat:"d" }} </a> </td>
+  <td align="right"> {{ object.size }} </td>
+  <td> {% if object.deleted %} {% include "svgbutton/canceled.html" %} {% else %} {% include "svgbutton/agreed.html" %} {% endif %} </td>
+  <td> {{ object.title }} </td>
+  <td> {{ object.series|default:'' }} </td>
+  <td> {{ object.serno|default:'' }} </td>
+ </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

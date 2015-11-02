@@ -1,0 +1,13 @@
+DEBUG = True
+#DEBUG = False
+
+STATIC_URL = '/static_fb2libre/'
+MEDIA_ROOT = '/mnt/shares/tmp/fb2libre/'
+LOGIN_URL = '/fb2libre/accounts/login/'
+DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': '/mnt/shares/tmp/fb2libre.db'}}
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'unix:/tmp/memcached.sock',
+    }
+}

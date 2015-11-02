@@ -1,0 +1,74 @@
+img.svgbutton {
+	border: 1px solid silver;
+	background-color: #F0F0F0;
+	// border-color: black;
+	cursor: pointer;
+	border-radius: 2pt;
+	padding: 1pt;
+	margin: 0px;
+	width: 16pt;
+}
+
+img.svgbutton_s {
+	border: 1px solid silver;
+	background-color: #F0F0F0;
+	// border-color: black;
+	border-radius: 3px;
+	padding: 3px;
+	margin: 0px;
+	cursor: pointer;
+	width: 16px;
+}
+
+img.svgsubbutton {
+	border: 1px solid silver;
+	background-color: #F0F0F0;
+	// border-color: black;
+	border-radius: 5px;
+	padding: 0px 5px;
+	margin: 0px;
+	cursor: pointer;
+	width: 24px;
+}
+
+img.svgimg {
+	cursor: pointer;
+	width: 16pt;
+	padding: 0;
+	margin: 0;
+}
+
+img.svgimg_s {
+	cursor: pointer;
+	width: 12pt;
+	padding: 0;
+}
+
+button.plain {
+	border: 1px solid silver;
+	background-color: #F0F0F0;
+	cursor: pointer;
+	border-radius: 2pt;
+	padding: 0 2pt;
+	margin: 0;
+	//color: none;
+	//height: 24px;
+}
+
+button.plain_big {
+	border: 1px solid silver;
+	background-color: #F0F0F0;
+	cursor: pointer;
+	border-radius: 5pt;
+	padding: 10pt;
+	margin: 0;
+	//color: none;
+	//height: 24px;
+}
+
+//path {
+	//width: 16pt;
+	//height: 16pt;
+	//fill: red;
+	//background-color: yellow;
+//}

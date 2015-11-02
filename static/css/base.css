@@ -1,0 +1,210 @@
+                dt p    { font-weight: bold; }
+                table {
+                        border-collapse: collapse;
+                        border: none;
+                }
+                td {
+                        border: 1px solid black;
+                        padding: 2pt;
+                }
+                #topmenu {
+                        background-color: #EBEFF9;
+                        display: table;
+                        width: 100%;
+                        text-align: center;
+                        border-top: 5px solid #EBEFF9;
+                }
+                #topmenu > div {
+                        display: table-cell;
+                        border-bottom: 1px solid #6B90DA;
+                        padding: 3px 1em;
+                        white-space: nowrap;
+                }
+                #topmenu div.active {
+                        border: 1px solid #6B90DA;
+                        border-bottom-color: white;
+                        background: white;
+                        -webkit-border-top-left-radius: 5px;
+                        -webkit-border-top-right-radius: 5px;
+                        -moz-border-radius-topleft: 5px;
+                        -moz-border-radius-topright: 5px;
+                        border-top-left-radius: 5px;
+                        border-top-right-radius: 5px;
+                        /* gradient */
+                        background: -moz-linear-gradient(top, #EBEFF9, white);          /* Firefox 3.6+ Chrome 1-9, Safari 4-5 */
+                        background: -webkit-linear-gradient(top, #EBEFF9, white);       /* Chrome 10+ 4-5 */
+                        background: -o-linear-gradient(top, #EBEFF9, white);            /* Opera 11.10+ */
+                        background: -ms-linear-gradient(top, #EBEFF9, white);           /* IE 10 */
+                        background: linear-gradient(top, #EBEFF9, white);               /* CSS3 */
+                }
+                #topmenu a:link {
+                        color: blue;
+                }
+                #topmenu a:visited {
+                        color: blue;
+
+p {
+	margin: 0;
+}
+
+a:link {
+    text-decoration: none;
+    color: #4444ff ;
+}
+
+a.nou {
+    text-decoration: none;
+}
+
+a:visited {
+	/*text-decoration: none;*/
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.button {
+	border: outset;
+	border-width: 2px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+a.button {
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	text-decoration: none;
+}
+
+td.button {
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	text-decoration: none;
+	text-align: center;
+}
+
+th.button {
+	padding: 0px;
+	text-decoration: none;
+	text-align: center;
+}
+
+/*#content {*/
+	/*width: 100%;*/
+	/*float: left;*/
+/*}*/
+
+.pdable:after {
+	content: "▿";
+}
+
+table.tabbed {
+	border-style: none;
+	border: 0px;			/* border="0" */
+	border-collapse: collapse;	/* cellspacing="0" */
+}
+
+table.tabbed td {
+	padding: 0.2em 0.5em;
+	border-radius: 0.4em 0.4em 0 0;		/* radius: lt rt rb lb */
+	/*padding: 0px;*/			/* cellpadding="0" */
+}
+
+/* temlists */
+
+table.catitem {
+	/*padding: 0;*/
+	border-spacing: 0;
+}
+
+table.catitem td.catcell {
+	vertical-align: top;
+	border-top: 2px;
+	border-style: solid;
+	margin: 0;
+	padding: 0;
+	border-color: #BBCCFF;		/* FIXME: */
+}
+
+table.catitem td.itemcell {
+	vertical-align: top;
+	border-width: 2px;
+	border-style: solid;
+	padding: 0;
+	margin: 0;
+	border-color: #BBCCFF;		/* FIXME: */
+}
+
+table.itemlist, table.catlist {
+	/*border-style: none;
+	border: 0;*/
+	border-collapse: collapse;	/* cellspacing="0" */
+}
+
+table.itemlist caption, table.catlist caption {
+	text-align: left;
+	padding: 0.3em;
+	white-space: nowrap;
+}
+
+/*table.itemlist tbody tr {
+	border-style: dotted;
+	border-width: thin;
+}*/
+
+table.itemlist tbody tr td {
+	padding: 0 0.3em;
+	border-style: dotted;
+	border-width: thin;
+}
+
+table.itemlist tbody tr a, table.catlist tbody tr a {
+	text-decoration: none;
+}
+
+.pulldown {
+	padding: 0.5em;
+	margin: -2px;
+	background: #F0F0F0;
+	border: 1px solid #D0D0D0;
+	box-shadow: 5px 5px 5px #C0C0C0;
+	-webkit-box-shadow: 5px 5px 5px #C0C0C0;
+	-moz-box-shadow: 5px 5px 5px #C0C0C0;
+}
+
+.pulldown a {
+	text-decoration: none;
+}
+.addressbar td {
+    padding: 2px 6px;
+}
+
+.bordered {
+	border: 2px solid;
+	padding: 0;
+	margin: 0
+}
+
+span.abc {
+	border: 1px solid #D0D0D0;
+}
+
+span.abc a {
+	text-decoration: none;
+}
+
+span.abc a.active {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.pagination a {
+	text-decoration: none;
+	border: 1px solid #D0D0D0;
+}

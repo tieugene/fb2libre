@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+{% block title %} Книга {% endblock %}
+{% block menu_title %} Книга: {{ object.title }} {% endblock %}
+{% block body_main %}
+<table width="auto" border="1">
+ <tbody>
+  <tr> <th> # </th>             <td> {{ object.pk }} </td> </tr>
+  <tr> <th> Библиотека </th>    <td> {{ object.arch.lib.name }} </td> </tr>
+  <tr> <th> Архив </th>         <td> {{ object.arch.fname }} </td> </tr>
+  <tr> <th> Файл </th>          <td> <a href="{{ object.get_lib_url }}"> {{ object.fname|stringformat:"d" }} </a> </td> </tr>
+  <tr> <th> Наименование </th>  <td> {{ object.title }} </td> </tr>
+  <tr> <th> Авторы </th>        <td> {% for i in object.authors.all %} <a href="{% url 'author_view' i.pk %}"> {{ i }} </a> <br/> {% endfor %} </td> </tr>
+  <tr> <th> Жанры </th>         <td> {% for i in object.genres.all %}  <a href="{% url 'genre_view'  i.pk %}"> {{ i }} </a> <br/> {% endfor %} </td> </tr>
+  <tr> <th> Серия </th>         <td>
+	{% if object.series %} <a href="{% url 'series_view' object.series.pk %}"> {{ object.series }} </a> {% else %} - {% endif %}
+	</td> </tr>
+  <tr> <th> # в серии </th>     <td> {{ object.serno|default:"-" }} </td> </tr>
+  <tr> <th> Размер </th>        <td> {{ object.size }} </td> </tr>
+  <tr> <th> Удален </th>        <td> {% if object.deleted %} {% include "svgbutton/canceled.html" %} {% else %} {% include "svgbutton/agreed.html" %} {% endif %} </td> </tr>
+  <tr> <th> Опубликован </th>   <td> {{ object.pubed|date:"d-m-y" }} </td> </tr>
+  <tr> <th> Язык </th>          <td> {{ object.lang }} </td> </tr>
+  <tr> <th> Рейтинг </th>       <td> {{ object.rate|default:"-" }} </td> </tr>
+ </tbody>
+</table>
+<a href="{% url 'core.views.book_get' object.pk %}"> {% include "svgbutton/download.html" %} </a>
+<a href="{% url 'core.views.book_html' object.pk %}"> {% include "svgbutton/preview.html" %} </a>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+{% block title %} Серии {% endblock %}
+{% block menu_title %} Серии {% endblock %}
+{% block body_main %}
+{% include "paginator.html" %}
+<table width="auto" border="1">
+<thead>
+ <tr>
+  <th> # </th>
+  <th> Название </th>
+  <th> Книг </th>
+ </tr>
+</thead>
+<tbody>
+{% for object in object_list %}
+ <tr class="list">
+  <td align="right"> <a href="{% url 'series_view' object.pk %}"> {{ object.pk }} </a> </td>
+  <td> {{ object.name }} </td>
+  <td align="right"> {{ object.book_set.all.count }} </td>
+ </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

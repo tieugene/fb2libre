@@ -1,0 +1,40 @@
+fieldset	{
+	/*
+	border:1px solid green;
+	background-color: yellow;
+	display: inline-block;
+	*/
+	display: inline-block;
+}
+fieldset > legend		{
+	/* border:1px solid green; */
+	font-weight: bold;
+}
+/* common */
+fieldset div.required > div.label {
+	font-weight: bold;
+}
+fieldset div.wrong	{
+	background-color: yellow;
+	border: 1px solid red;
+}
+fieldset > div.errors	{
+	color: red;
+}
+/* 1. tile */
+fieldset div.table > div.field {
+	display: table-cell;
+}
+/* 2. list */
+fieldset div.list	{
+	display: table;
+}
+fieldset div.list > div.field {
+	display: table-row;
+}
+fieldset div.list > div.field > div.label {
+	display: table-cell;
+}
+fieldset div.list > div.field > div.input {
+	display: table-cell;
+}

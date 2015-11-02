@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+{% block title %} Языки {% endblock %}
+{% block menu_title %} Языки {% endblock %}
+{% block body_main %}
+{% include "paginator.html" %}
+<table width="auto" border="1">
+<thead>
+ <tr>
+  <th> # </th>
+  <th> Название </th>
+  <th> Книг </th>
+ </tr>
+</thead>
+<tbody>
+{% for object in object_list %}
+ <tr class="list">
+  <td align="right"> <a href="{% url 'lang_view' object.pk %}"> {{ object.pk }} </a> </td>
+  <td> {{ object.abbr }} </td>
+  <td align="right"> {{ object.book_set.all.count }} </td>
+ </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

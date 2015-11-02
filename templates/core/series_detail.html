@@ -1,0 +1,12 @@
+{% extends "core/base.html" %}
+{% block title %} Серия {% endblock %}
+{% block menu_title %} Серия: {{ object.name }} {% endblock %}
+{% block body_main %}
+<table width="auto" border="1">
+ <tbody>
+  <tr> <th> # </th>             <td> {{ object.pk }} </td> </tr>
+  <tr> <th> Наименование </th>  <td> {{ object.name }} </td> </tr>
+ </tbody>
+</table>
+{% include "core/book_sublist.html" %}
+{% endblock %}

@@ -1,0 +1,38 @@
+#!/bin/sh
+# script to maintain django project
+
+RETVAL=0
+
+MGR="./manage.py"
+#DBNAME=`python -c "import settings; print settings.DATABASE_NAME;"`
+#DBUSER=`python -c "import settings; print settings.DATABASE_USER;"`
+#DBPASS=`python -c "import settings; print settings.DATABASE_PASSWORD;"`
+
+case "$1" in
+cleanpyc)
+	find . -type f -name "*.pyc" -delete
+	;;
+dump)		# dump whole sql db
+	mysqldump --user=$DBUSER --password=$DBPASS -c --compact -e --skip-opt -t $DBNAME | gzip > $DBNAME.`date +%y%m%d%H%M%S`.sql.gz
+	;;
+drop)	# drop all SQL tables
+	(echo "BEGIN;" && (echo "SHOW TABLES;" | $MGR dbshell | grep -v Tables | while read i; do echo "DROP TABLE $i;"; done) && echo "COMMIT;") | $MGR dbshell
+	;;
+sync)	# [re]create DB structure
+	echo "no" | $MGR syncdb
+	;;
+clean)	# delete all records from all tables
+	(echo "BEGIN;" && (echo "SHOW TABLES;" | $MGR dbshell | grep -v Tables | while read i; do echo "DELETE FROM $i;"; done) && echo "COMMIT;") | $MGR dbshell
+	;;
+restore)
+	(echo "BEGIN;" && gunzip -c $2 && echo "COMMIT;") | $MGR dbshell
+	;;
+help)
+	echo "Das ist help"
+	;;
+*)
+	echo $"Usage: $0 {cleanpyc|dump|drop|sync|clean|restore|help}"
+	RETVAL=1
+esac
+
+exit $RETVAL

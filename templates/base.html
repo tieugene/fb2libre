@@ -1,0 +1,49 @@
+{% load static %}
+{# load adminmedia #}
+{% get_static_prefix as STATIC_URL %}
+{# / #}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	{% block meta %} {% endblock %}
+	<title> Библиотека {% block title %} ... {% endblock %} </title>
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/colors.css"/>
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/fieldset.css"/>
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/svgbutton.css" />
+	<!-- admin -->
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}admin/css/forms.css" />
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}admin/css/widgets.css" />
+	<script type="text/javascript">window.__admin_media_prefix__ = "{{ STATIC_URL }}admin/";</script>
+	<script type="text/javascript" src="{{ STATIC_URL }}admin/js/core.js"></script>
+	<!-- /admin -->
+	{% block js %}
+	{% endblock %}
+	<style>
+	{% block css %}
+	{% endblock %}
+	</style>
+</head>
+<body>
+<div id="topmenu">
+	<div id="tm_index" class=""> <a href="{% url 'index' %}"> {% include "svgbutton/home.html" %} </a> </div>
+	<div style="width: 100%"> <b> {% block menu_title %} {% endblock %} </b> </div>
+	{% if user.is_authenticated %}
+		<div> {{ user.username }} ({{ user.last_name }}) : </div>
+		<div> <a href="{% url 'django.contrib.auth.views.logout' %}?next={% url 'index' %}"> {% include "svgbutton/logout.html" %} </a> </div>
+		{% if user.is_staff %}
+			<div id="tm_admin"> <a href="{% url 'admin:index' %}"> {% include "svgbutton/admin.html" %} </a> </div>
+		{% endif %}
+	{% else %}
+		<div id="tm_login"> <a href="{% url 'django.contrib.auth.views.login' %}?next={% url 'index' %}" rel="nofollow"> {% include "svgbutton/login.html" %} </a> </div>
+	{% endif %}
+	<div id="tm_about"> <a href="{% url 'about' %}"> {% include "svgbutton/about.html" %} </a> </div>
+</div>
+	<div>
+	{% block body_main %}
+		<p> Заглушка </p>
+	{% endblock %}
+	</div>
+</body>
+</html>
