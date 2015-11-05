@@ -24,7 +24,7 @@ LIBRATE:	рейтинг (?..?)
 KEYWORDS:	ключевые слова
 
 = Plan =
-* 0.0.1: parsing
+* 0.0.0: parsing to txt
 ** parsing; lib (*.inpx) > arch (*.inp) > file (line)
 ** output (txt, uniq):
 *** lang
@@ -32,7 +32,7 @@ KEYWORDS:	ключевые слова
 *** authors
 *** books
 
-* 0.0.2: sql
+* 0.0.1: sql from inpx
 ** load:
 *** genres - as is, plain
 *** lang - as is
@@ -46,7 +46,7 @@ KEYWORDS:	ключевые слова
 *** search:
 ** mk patches (per line/file.fb2)
 
-* 0.0.3: tuning
+* 0.0.2: tuning
 ** "проверено"
 ** genre: preload, 2-level (?)
 ** lang: preload
