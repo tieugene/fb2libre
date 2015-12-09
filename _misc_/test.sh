@@ -13,5 +13,9 @@ LR="mysql -ulibrusec -plibrusec librusec -se"
 #CMD="SELECT libgenres.* FROM libgenres LEFT JOIN libgenre ON libgenres.gid = libgenre.gid WHERE libgenre.gid IS NULL;"
 #CMD="SELECT DISTINCT role FROM libavtor;"
 #CMD="SELECT a.aid, a.main FROM libavtors a LEFT JOIN libavtors b ON a.main = b.aid WHERE a.main <> 0 AND b.main IS NOT NULL ORDER BY a.aid;"
-
-$LR $CMD
+#CMD="SELECT DISTINCT main FROM libavtors WHERE aid = 283;"
+#CMD="SELECT a.aid, b.aid FROM libavtors a LEFT JOIN libavtors b ON a.main = b.aid WHERE b.aid <> 0 ORDER BY a.aid LIMIT 50;"
+#CMD="(SELECT BadId, GoodId FROM libjoinedbooks WHERE GoodId = realId OR realId IS NULL) UNION (SELECT BadId, realId FROM libjoinedbooks WHERE GoodId <> realId AND realId IS NOT NULL) ORDER BY BadId LIMIT 100;"
+# Auto aliase:
+CMD="SELECT * FROM libavtoraliase WHERE GoodId = BadId"
+$FN "$CMD"
