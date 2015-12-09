@@ -6,11 +6,9 @@ Tool to check/tune librusec/flibusta databases
 Workflow:
 * check
 * repair (orphaned, self)
-* check
 * tune (cascade replace)
-* check
 * patch (loops, patches)
-* check
+* delete unwanted (no-fb2, empty)
 * export
 
 Lib:
@@ -61,6 +59,8 @@ LD_NOTAUTH	= "DELETE libavtor FROM libavtor WHERE role <> 'a';"
 # F only
 A_LJB_ORPH_REAL	= "SELECT COUNT(*) FROM libjoinedbooks LEFT JOIN libbook ON libjoinedbooks.realId = libbook.BookId WHERE libjoinedbooks.realId IS NOT NULL AND libbook.BookId IS NULL;"
 F_BOOK_REPL	= "(SELECT BadId, GoodId FROM libjoinedbooks WHERE (GoodId = realId OR realId IS NULL) AND BadId <> GoodId) UNION (SELECT BadId, realId FROM libjoinedbooks WHERE (GoodId <> realId AND realId IS NOT NULL) AND BadId <> realId) ORDER BY BadId;"
+F_BOOK_CASC1	= "SELECT COUNT(*) FROM libjoinedbooks a JOIN libjoinedbooks b ON a.realId = b.BadId WHERE a.BadId <> a.realId;"
+F_BOOK_CASC2	= "SELECT COUNT(*) FROM libjoinedbooks a JOIN libjoinedbooks b ON a.GoodId = b.BadId WHERE (a.GoodId = a.realId OR a.realId IS NULL) AND a.BadId <> a.GoodId AND a.BadId <> a.realId;"
 
 def	prn_out(l, k, v = None):
 	'''
@@ -185,14 +185,14 @@ def	chk_librusec (conn, cur):
 	'''
 	#prn_tbl(cur, 'libbook')
 	#prn_out(2, 'mv & Del',		get_one(cur, LA_MV_RM))		# Замененные и удаленные
-	#prn_out(2, 'mv & !Del',		get_one(cur, LA_MV_NRM))	# Замененные и НЕ удаленные
-	#prn_out(2, '!mv & Del',		get_one(cur, LA_NMV_RM))	# НЕ замененные и удаленные
+	#prn_out(2, 'mv & !Del',	get_one(cur, LA_MV_NRM))	# Замененные и НЕ удаленные
+	#prn_out(2, '!mv & Del',	get_one(cur, LA_NMV_RM))	# НЕ замененные и удаленные
 	prn_tbl(cur, 'libjoinedbooks')
 	prn_out(2, 'orph bad',		get_orph(cur, ('libjoinedbooks', 'BadId', 'libbook', 'bid')))	# У книг левые источники
 	prn_out(2, 'orph good',		get_orph(cur, ('libjoinedbooks', 'GoodId', 'libbook', 'bid')))	# У книг левые замены
 	prn_out(2, 'repl w/ self',	get_one(cur, 'SELECT COUNT(*) FROM libjoinedbooks WHERE BadId = GoodId;'))
 	prn_out(2, 'repl w/ loop',	__chk_loop(cur, "SELECT DISTINCT BadId, GoodId FROM libjoinedbooks WHERE BadId <> GoodId ORDER BY BadId;"))
-	prn_out(2, 'repl cascade',	0)	# FIXME
+	prn_out(2, 'repl cascade',	get_one(cur, "SELECT COUNT(*) FROM libjoinedbooks a JOIN libjoinedbooks b ON a.GoodId = b.BadId WHERE a.GoodId <> a.BadId AND b.GoodId <> b.BadId;"))
 	prn_tbl(cur, 'libavtor')
 	prn_out(2, 'orph book',		get_orph(cur, ('libavtor', 'bid', 'libbook', 'bid')))
 	prn_out(2, 'orph auth',		get_orph(cur, ('libavtor', 'aid', 'libavtors', 'aid')))
@@ -201,7 +201,7 @@ def	chk_librusec (conn, cur):
 	prn_out(2, 'repl w/ bad',	get_one(cur, LA_REPLD_ORPH))
 	prn_out(2, 'repl w/ self',	get_one(cur, 'SELECT COUNT(*) FROM libavtors WHERE aid = main;'))
 	prn_out(2, 'repl w/ loop',	__chk_loop(cur, 'SELECT a.aid, b.aid FROM libavtors a LEFT JOIN libavtors b ON a.main = b.aid WHERE b.aid <> 0 ORDER BY a.aid;'))
-	prn_out(2, 'repl cascade',	0)	# FIXME
+	prn_out(2, 'repl cascade',	get_one(cur, "SELECT COUNT(*) FROM libavtors a JOIN libavtors b ON a.main = b.aid WHERE b.main <> 0"))
 	#prn_out(2, 'repl',		get_one(cur, LA_REPLD))
 	#prn_out(2, 'repl & !empty',	get_one(cur, LA_REPLD_FULL))
 	prn_tbl(cur, 'libgenre')
@@ -308,9 +308,9 @@ def	chk_flibusta (conn, cur):
 	prn_out(2, 'orph bad',		get_orph(cur, ('libjoinedbooks', 'BadId', 'libbook', 'BookId')))	# У книг левые источники
 	prn_out(2, 'orph good',		get_orph(cur, ('libjoinedbooks', 'GoodId', 'libbook', 'BookId')))	# У книг левые замены
 	prn_out(2, 'orph real',		get_one(cur, A_LJB_ORPH_REAL))
-	prn_out(2, 'repl w/ self',	0)	# FIXME
+	prn_out(2, 'repl w/ self',	get_one(cur, "SELECT COUNT(*) FROM libjoinedbooks WHERE BadId = GoodId OR BadId = realId;"))
 	prn_out(2, 'repl w/ loop',	__chk_loop(cur, F_BOOK_REPL))
-	prn_out(2, 'repl cascade',	0)	# FIXME
+	prn_out(2, 'repl cascade',	get_one(cur, F_BOOK_CASC1) + get_one(cur, F_BOOK_CASC2))
 	prn_tbl(cur, 'libavtor')
 	prn_out(2, 'orph book',		get_orph(cur, ('libavtor', 'BookId', 'libbook', 'BookId')))
 	prn_out(2, 'orph auth',		get_orph(cur, ('libavtor', 'AvtorId', 'libavtorname', 'AvtorId')))
@@ -321,7 +321,7 @@ def	chk_flibusta (conn, cur):
 	prn_out(2, 'orph good',		get_orph(cur, ('libavtoraliase', 'GoodId', 'libavtorname', 'AvtorId')))
 	prn_out(2, 'repl w/ self',	get_one(cur, 'SELECT COUNT(*) FROM libavtoraliase WHERE BadId = GoodId;'))
 	prn_out(2, 'repl w/ loop',	__chk_loop(cur, "SELECT DISTINCT BadId, GoodId FROM libavtoraliase WHERE BadId <> GoodId ORDER BY BadId;"))
-	prn_out(2, 'repl cascade',	0)	# FIXME
+	prn_out(2, 'repl cascade',	get_one(cur, "SELECT COUNT(*) FROM libavtoraliase a JOIN libavtoraliase b ON a.GoodId = b.BadId WHERE a.GoodId <> a.BadId AND b.GoodId <> b.BadId;"))
 	prn_tbl(cur, 'libgenre')
 	prn_out(2, 'orph book',		get_orph(cur, ('libgenre', 'BookId', 'libbook', 'BookId')))
 	prn_out(2, 'orph genre',	get_orph(cur, ('libgenre', 'GenreId', 'libgenrelist', 'GenreId')))
